@@ -1,8 +1,8 @@
 // A provider is responsible for creating and managing resources
 provider "aws" {
-  access_key = "AKIAIH6FYVH3BTXP37NQ"
-  secret_key = "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"
-  region     = "us-east-1"
+  access_key = "${var.access_key}"
+  secret_key = "${var.secret_key}"
+  region     = "${var.region}"
 }
 
 // The resource block defines a resource that exists within the infrastructure.
