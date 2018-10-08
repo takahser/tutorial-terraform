@@ -187,9 +187,39 @@ ip = 54.161.35.161
 macbook-pro-3:terraform sta$ 
 ```
 
+**Modules**
+
+Modules in Terraform are self-contained packages of Terraform configurations that are managed as a group. Modules are used to create reusable components, improve organization, and to treat pieces of infrastructure as a black box.
+
+*Important: Modules can't be used in the amazon aws free tier!*
+
+Config file featuring a consul module that represents a consul [cluster][3].
+
+```
+provider "aws" {
+  access_key = "AWS ACCESS KEY"
+  secret_key = "AWS SECRET KEY"
+  region     = "us-east-1"
+}
+
+module "consul" {
+  source = "hashicorp/consul/aws" // tells Terraform where the module can be retrieved
+
+  num_servers = "3"
+}
+```
+
+Output variables are supported as well:
+
+```
+output "consul_server_asg_name" {
+  value = "${module.consul.asg_name_servers}"
+}
+```
 
 
 
 [0]: https://www.terraform.io/intro/getting-started/dependencies.html
 [1]: https://www.terraform.io/docs/provisioners/index.html
 [2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
+[3]: https://www.consul.io/
