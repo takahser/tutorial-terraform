@@ -8,6 +8,6 @@ provider "aws" {
 // The resource block defines a resource that exists within the infrastructure.
 // It can be either physical (e.g. ec2 instance) or logical (e.g. heroku app)
 resource "aws_instance" "example" {
-  ami           = "ami-2757f631"
+  ami           = "ami-b374d5a5"
   instance_type = "t2.micro"
 }
