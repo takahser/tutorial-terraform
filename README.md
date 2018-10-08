@@ -217,9 +217,37 @@ output "consul_server_asg_name" {
 }
 ```
 
+**Backends**
 
+[Backends][5] for shared state storage, locking, and environments can be used, such as [Consul][3], S3 or [HashiCorp Terraform][4].
+If Consul is being used, a possible config file would look like this:
+
+```
+terraform {
+  backend "consul" {
+    address = "demo.consul.io"
+    path    = "getting-started-AJSDFLJSALDFJKLASKF"
+    lock    = false
+    scheme  = "https"
+  }
+}
+```
+
+To apply the backends, run:
+
+```
+terraform init
+terraform apply
+```
+
+The state is now saved and can be watched on the [Consul Demo Server][6].
+
+*Important: Ofc, the demo server should never be used in a prod environment! Instead, a dedicated Consul server should be installed*
 
 [0]: https://www.terraform.io/intro/getting-started/dependencies.html
 [1]: https://www.terraform.io/docs/provisioners/index.html
 [2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
 [3]: https://www.consul.io/
+[4]: https://www.hashicorp.com/products/terraform?utm_source=oss&utm_medium=getting-started&utm_campaign=terraform
+[5]: https://www.terraform.io/docs/backends/
+[6]: https://demo.consul.io/ui/dc1/kv/getting-started-AJSDFLJSALDFJKLASKF/edit
