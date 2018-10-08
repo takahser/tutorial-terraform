@@ -13,6 +13,13 @@ resource "aws_instance" "example" {
 }
 
 // "aws_eip" resource type => allocates and associates an elastic IP to an EC2 instance
+// dependencies: aws_instance
 resource "aws_eip" "ip" {
   instance = "${aws_instance.example.id}" // EC2 instance 'aws_instance' to assign the IP to
+}
+
+// dependencies: none => will be created parallel to the others
+resource "aws_instance" "another" {
+  ami           = "ami-b374d5a5"
+  instance_type = "t2.micro"
 }
