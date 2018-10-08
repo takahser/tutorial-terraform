@@ -1,6 +1,6 @@
 # Terraform
 
-**Getting started**
+**Add Instance**
 
 ```
 terraform init
@@ -24,3 +24,19 @@ terraform show # 2. inspect current state
 ```
 
 => will output the newly created instance
+
+**Change Instance**
+
+after changing the `.tf` config, run:
+
+```
+terraform apply
+```
+
+Excerpt of the output:
+
+```
+-/+ aws_instance.example (new resource required)
+```
+
+=> The `-/+` shows, that this resource is going to be **destroyed and recreated**.
