@@ -28,3 +28,8 @@ resource "aws_instance" "another" {
   ami           = "ami-b374d5a5"
   instance_type = "t2.micro"
 }
+
+// output the ip to the terraform user when calling 'terraform apply' or 'terraform output'
+output "ip" {
+  value = "${aws_eip.ip.public_ip}"
+}

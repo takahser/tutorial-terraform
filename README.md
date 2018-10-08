@@ -166,6 +166,28 @@ Now, we can get the ami value if we provide the `region`:
   ami           = "${lookup(var.amis, var.region)}" // lookup function does a dynamic lookup in a map for a key
 ```
 
+**Output Variables**
+
+Output variables represent data, relevant for the terraform user and is outputted when `apply` is called. It can also be queried using the `terraform output` command.
+
+```
+output "ip" {
+  value = "${aws_eip.ip.public_ip}"
+}
+```
+
+Excerpt from the CLI when running `terraform apply`:
+
+```
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+ip = 54.161.35.161
+macbook-pro-3:terraform sta$ 
+```
+
+
 
 
 [0]: https://www.terraform.io/intro/getting-started/dependencies.html
