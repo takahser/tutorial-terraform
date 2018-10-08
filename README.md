@@ -70,6 +70,34 @@ resource "aws_eip" "ip" {
 
 To model dependencies, implicit dependencies via interpolation expressions should be used, whenever possible. Alternatively, the `depends_on` [can be used][0].
 
+**Provisioners**
+
+[Provisioners][1] are used to execute scripts on a local or remote machine as part of resource creation or destruction. 
+Multiple `provisioner` blocks can be added to define multiple provisioning steps
+```
+resource "aws_instance" "web" {
+  # ...
+
+  // the 'local-exec' provisioner executes a command locally on the machine
+  provisioner "local-exec" {
+    command = "echo ${self.private_ip} > file.txt"
+  }
+}
+```
+
+Provisioners are only run when a resource is created.
+
+```
+terraform destroy // first, destroy the current instance(s)
+terraform apply // , so the provisioner(s) will actually be executed
+```
+
+to check, if the provisioner was run, we can execute:
+
+```
+cat ip_address.txt // e.g. 34.228.228.189
+```
 
 
 [0]: https://www.terraform.io/intro/getting-started/dependencies.html
+[1]: https://www.terraform.io/docs/provisioners/index.html
