@@ -40,3 +40,17 @@ Excerpt of the output:
 ```
 
 => The `-/+` shows, that this resource is going to be **destroyed and recreated**.
+
+**Destroy Instance**
+
+```
+terraform destroy
+```
+
+Excerpt of the output:
+
+```
+  - aws_instance.example
+```
+
+=> The `-` shows, that this resource is going to be **destroyed**.
