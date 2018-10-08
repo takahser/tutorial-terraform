@@ -54,3 +54,22 @@ Excerpt of the output:
 ```
 
 => The `-` shows, that this resource is going to be **destroyed**.
+
+**Implicit Dependencies**
+
+modifying the config file:
+
+```
+resource "aws_eip" "ip" {
+  instance = "${aws_instance.example.id}" // EC2 instance 'aws_instance' to assign the IP to
+}
+```
+
+=> creates an implicity dependency on the instance `aws_instance` named `example`.
+=> Terraform knows that the `aws_instance` must be created before the `aws_eip`.
+
+To model dependencies, implicit dependencies via interpolation expressions should be used, whenever possible. Alternatively, the `depends_on` [can be used][0].
+
+
+
+[0]: https://www.terraform.io/intro/getting-started/dependencies.html
