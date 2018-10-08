@@ -98,6 +98,76 @@ to check, if the provisioner was run, we can execute:
 cat ip_address.txt // e.g. 34.228.228.189
 ```
 
+**Variables**
+
+```
+// variables.tf
+
+variable "access_key" {}
+variable "secret_key" {}
+variable "region" {
+  default = "us-east-1"
+}
+```
+
+=> empty variables (`{}`) are populated by running `terraform plan` interactively
+
+**Ways to provide variables**
+
+Variables can be injected via **CLI arguments**.
+
+```
+$ terraform apply \
+  -var 'access_key=foo' \
+  -var 'secret_key=bar'
+# ...
+```
+
+Variables can be injected via **var files**.
+
+```
+$ terraform apply \
+  -var-file="secret.tfvars" \
+  -var-file="production.tfvars"
+```
+
+Variables can be set using enviroment variables with the pattern `TF_VAR_foo` (`foo` would be available as a variable in terraform).
+
+**Lists**
+
+```
+# implicitly by using brackets [...]
+variable "cidrs" { default = [] }
+
+# explicitly
+variable "cidrs" { type = "list" }
+
+# populate
+cidrs = [ "10.0.0.0/16", "10.1.0.0/16" ]
+```
+
+**Maps and Lookup Tables**
+
+[AMIs][2] are specific to the region in use. We can model this dependency using a lookup table:
+
+```
+variable "amis" {
+  type = "map"
+  default = {
+    "us-east-1" = "ami-b374d5a5"
+    "us-west-2" = "ami-4b32be2b"
+  }
+}
+```
+
+Now, we can get the ami value if we provide the `region`:
+
+```
+  ami           = "${lookup(var.amis, var.region)}" // lookup function does a dynamic lookup in a map for a key
+```
+
+
 
 [0]: https://www.terraform.io/intro/getting-started/dependencies.html
 [1]: https://www.terraform.io/docs/provisioners/index.html
+[2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
